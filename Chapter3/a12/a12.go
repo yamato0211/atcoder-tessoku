@@ -12,8 +12,23 @@ func main() {
 	sc := bufio.NewScanner(os.Stdin)
 	buf := make([]byte, 4096)
 	sc.Buffer(buf, 2000000)
-	n := readInt(sc)
-	fmt.Println(n)
+	n, k := readInt2(sc)
+	a := readIntArray(sc)
+	left := 0
+	right := 1000000000
+	for left < right {
+		mid := (left + right) / 2
+		sum := 0
+		for i := 0; i < n; i++ {
+			sum += mid / a[i]
+		}
+		if sum >= k {
+			right = mid
+		} else {
+			left = mid + 1
+		}
+	}
+	fmt.Println(left)
 }
 
 func readInt(sc *bufio.Scanner) int {

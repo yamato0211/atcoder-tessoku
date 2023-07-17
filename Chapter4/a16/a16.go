@@ -13,7 +13,28 @@ func main() {
 	buf := make([]byte, 4096)
 	sc.Buffer(buf, 2000000)
 	n := readInt(sc)
-	fmt.Println(n)
+	sc.Scan()
+	sa := strings.Split(sc.Text(), " ")
+	a := make([]int, len(sa)+2)
+	for i := 2; i <= n; i++ {
+		a[i], _ = strconv.Atoi(sa[i-2])
+	}
+	sc.Scan()
+	sb := strings.Split(sc.Text(), " ")
+	b := make([]int, len(sb)+3)
+	for i := 3; i <= n; i++ {
+		b[i], _ = strconv.Atoi(sb[i-3])
+	}
+	dp := make([]int, n+1)
+	dp[2] = a[2]
+	for i := 3; i <= n; i++ {
+		if dp[i-1]+a[i] <= dp[i-2]+b[i] {
+			dp[i] = dp[i-1] + a[i]
+		} else {
+			dp[i] = dp[i-2] + b[i]
+		}
+	}
+	fmt.Println(dp[n])
 }
 
 func readInt(sc *bufio.Scanner) int {
